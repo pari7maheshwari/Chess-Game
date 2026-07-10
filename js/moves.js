@@ -5,9 +5,17 @@ import { isValidRookMove } from "./pieces/rook.js";
 import { isValidBishopMove } from "./pieces/bishop.js";
 import { isValidQueenMove } from "./pieces/queen.js";
 import { isValidKingMove } from "./pieces/king.js";
+import { isValidCastle } from "./castling.js";
 
 export function isValidMove(fromRow, fromCol, toRow, toCol) {
   const piece = board[fromRow][fromCol];
+
+  if (
+    piece[1] === "k" &&
+    isValidCastle(fromRow, fromCol, toRow, toCol, piece)
+  ) {
+    return true;
+  }
 
   switch (piece[1]) {
     case "p":

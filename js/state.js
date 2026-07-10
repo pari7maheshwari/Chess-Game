@@ -12,4 +12,15 @@ export const board = [
 export const state = {
   selected: null,
   turn: "white",
+  gameOver: false,
+
+   moved: {
+    wk: false,
+    wra: false,
+    wrh: false,
+
+    bk: false,
+    bra: false,
+    brh: false,
+  }
 };

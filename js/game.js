@@ -11,6 +11,9 @@ import { hasLegalMoves } from "./checkmate.js";
 const turnText = document.getElementById("turn");
 
 export function movePiece(elem) {
+  if (state.gameOver) {
+    return;
+  }
   console.log("Clicked:", elem.id);
   const row = Number(elem.id[3]);
   const col = Number(elem.id[4]);
@@ -59,6 +62,15 @@ export function movePiece(elem) {
   }
 
   // Move piece
+  if (piece === "wk" && state.selected.col === 4 && col === 6) {
+    board[7][5] = "wr";
+    board[7][7] = "";
+  }
+
+  if (piece === "wk" && state.selected.col === 4 && col === 2) {
+    board[7][3] = "wr";
+    board[7][0] = "";
+  }
   board[row][col] = piece;
   board[state.selected.row][state.selected.col] = "";
 
@@ -73,12 +85,14 @@ export function movePiece(elem) {
   if (isKingInCheck(currentPlayer)) {
     if (!hasLegalMoves(currentPlayer)) {
       setStatus("♟ Checkmate! Game Over");
+      state.gameOver = true;
     } else {
       setStatus("⚠ Check!");
     }
   } else {
     if (!hasLegalMoves(currentPlayer)) {
       setStatus("🤝 Draw! Stalemate");
+      state.gameOver = true;
     } else {
       clearStatus();
     }
