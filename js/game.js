@@ -6,6 +6,7 @@ import { getLegalMoves } from "./legalMoves.js";
 import { highlightMoves, clearHighlights } from "./board.js";
 import { isKingInCheck } from "./check.js";
 import { setStatus, clearStatus } from "./status.js";
+import { hasLegalMoves } from "./checkmate.js";
 
 const turnText = document.getElementById("turn");
 
@@ -68,10 +69,12 @@ export function movePiece(elem) {
   changeTurn();
   const opponent = state.turn;
 
-  if (isKingInCheck(opponent)) {
-    setStatus("Black is in check!");
-  } else {
-    clearStatus();
+  if (isKingInCheck(state.turn)) {
+    if (!hasLegalMoves(state.turn)) {
+      setStatus("♟ Checkmate! Game Over");
+    } else {
+      setStatus("⚠ Check!");
+    }
   }
 }
 
