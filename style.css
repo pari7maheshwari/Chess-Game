@@ -158,3 +158,19 @@ h1 {
     transform: translateY(-5px);
   }
 }
+
+.highlight {
+  background-color: rgba(0, 255, 0, 0.35) !important;
+}
+
+.capture {
+  background-color: rgba(255, 0, 0, 0.35) !important;
+}
+
+.status {
+    height: 24px;
+    margin: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #c62828;
+}

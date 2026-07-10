@@ -12,12 +12,6 @@ A chess game built using **HTML, CSS, and JavaScript**.
 
 ## To Do
 
-* [ ] Knight movement
-* [ ] Rook movement
-* [ ] Bishop movement
-* [ ] Queen movement
-* [ ] King movement
-* [ ] Capturing
 * [ ] Check detection
 * [ ] Checkmate
 * [ ] Castling

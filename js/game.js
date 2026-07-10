@@ -2,6 +2,10 @@ import { board, state } from "./state.js";
 import { renderBoard } from "./board.js";
 import { isValidMove } from "./moves.js";
 import { getPiece, getPieceColor } from "./utils.js";
+import { getLegalMoves } from "./legalMoves.js";
+import { highlightMoves, clearHighlights } from "./board.js";
+import { isKingInCheck } from "./check.js";
+import { setStatus, clearStatus } from "./status.js";
 
 const turnText = document.getElementById("turn");
 
@@ -19,23 +23,13 @@ export function movePiece(elem) {
     console.log("Current Turn:", state.turn);
 
     if (pieceColor !== state.turn) return;
-
-    state.selected = {
-      row,
-      col,
-    };
-
-    elem.classList.add("selected");
-
+    selectPiece(row, col, elem);
     return;
   }
 
   // Click same square again
   if (state.selected.row === row && state.selected.col === col) {
-    document
-      .getElementById(`td-${state.selected.row}${state.selected.col}`)
-      .classList.remove("selected");
-    state.selected = null;
+    unselectPiece();
     return;
   }
 
@@ -45,17 +39,11 @@ export function movePiece(elem) {
 
     // Clicking your own piece changes the selection
     if (pieceColor === state.turn) {
-      document
-        .getElementById(`td-${state.selected.row}${state.selected.col}`)
-        .classList.remove("selected");
+      unselectPiece();
 
-      state.selected = { row, col };
-
-      elem.classList.add("selected");
-
+      selectPiece(row, col, elem);
       return;
     }
-
     // Clicking an opponent piece -> continue to move validation
   }
   console.log("Selected:", state.selected);
@@ -65,20 +53,26 @@ export function movePiece(elem) {
   if (!isValidMove(state.selected.row, state.selected.col, row, col)) {
     return;
   }
+  if (!tryMove(state.selected.row, state.selected.col, row, col)) {
+    return;
+  }
 
   // Move piece
   board[row][col] = piece;
   board[state.selected.row][state.selected.col] = "";
 
-  document
-    .getElementById(`td-${state.selected.row}${state.selected.col}`)
-    .classList.remove("selected");
-
   renderBoard();
 
-  state.selected = null;
+  unselectPiece();
 
   changeTurn();
+  const opponent = state.turn;
+
+  if (isKingInCheck(opponent)) {
+    setStatus("Black is in check!");
+  } else {
+    clearStatus();
+  }
 }
 
 export function changeTurn() {
@@ -86,4 +80,55 @@ export function changeTurn() {
 
   turnText.innerHTML =
     state.turn === "white" ? "⚪ White's Turn" : "⚫ Black's Turn";
+}
+
+function selectPiece(row, col, elem) {
+  clearHighlights();
+
+  state.selected = { row, col };
+
+  const moves = getLegalMoves(row, col);
+  highlightMoves(moves);
+
+  elem.classList.add("selected");
+}
+
+function unselectPiece() {
+  if (!state.selected) return;
+
+  document
+    .getElementById(`td-${state.selected.row}${state.selected.col}`)
+    .classList.remove("selected");
+
+  clearHighlights();
+
+  state.selected = null;
+}
+
+function tryMove(fromRow, fromCol, toRow, toCol) {
+  const piece = board[fromRow][fromCol];
+  const capturedPiece = board[toRow][toCol];
+
+  // Make temporary move
+  board[toRow][toCol] = piece;
+  board[fromRow][fromCol] = "";
+
+  const color = getPieceColor(piece);
+
+  // Check if own king is attacked
+  if (isKingInCheck(color)) {
+    // Undo move
+    board[fromRow][fromCol] = piece;
+    board[toRow][toCol] = capturedPiece;
+
+    setStatus("Illegal move! Your king is in check.");
+
+    renderBoard();
+
+    return false;
+  }
+
+  clearStatus();
+
+  return true;
 }

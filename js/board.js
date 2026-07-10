@@ -37,3 +37,25 @@ export function renderBoard() {
     }
   }
 }
+
+export function clearHighlights() {
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      document
+        .getElementById(`td-${row}${col}`)
+        .classList.remove("highlight", "capture");
+    }
+  }
+}
+
+export function highlightMoves(moves) {
+  moves.forEach((move) => {
+    const cell = document.getElementById(`td-${move.row}${move.col}`);
+
+    if (board[move.row][move.col] === "") {
+      cell.classList.add("highlight");
+    } else {
+      cell.classList.add("capture");
+    }
+  });
+}
