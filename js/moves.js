@@ -4,6 +4,7 @@ import { isValidKnightMove } from "./pieces/knight.js";
 import { isValidRookMove } from "./pieces/rook.js";
 import { isValidBishopMove } from "./pieces/bishop.js";
 import { isValidQueenMove } from "./pieces/queen.js";
+import { isValidKingMove } from "./pieces/king.js";
 
 export function isValidMove(fromRow, fromCol, toRow, toCol) {
   const piece = board[fromRow][fromCol];
@@ -23,6 +24,9 @@ export function isValidMove(fromRow, fromCol, toRow, toCol) {
 
     case "q":
       return isValidQueenMove(fromRow, fromCol, toRow, toCol);
+
+    case "k":
+      return isValidKingMove(fromRow, fromCol, toRow, toCol);
 
     default:
       return false;
