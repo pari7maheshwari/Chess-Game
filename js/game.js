@@ -67,13 +67,20 @@ export function movePiece(elem) {
   unselectPiece();
 
   changeTurn();
-  const opponent = state.turn;
 
-  if (isKingInCheck(state.turn)) {
-    if (!hasLegalMoves(state.turn)) {
+  const currentPlayer = state.turn;
+
+  if (isKingInCheck(currentPlayer)) {
+    if (!hasLegalMoves(currentPlayer)) {
       setStatus("♟ Checkmate! Game Over");
     } else {
       setStatus("⚠ Check!");
+    }
+  } else {
+    if (!hasLegalMoves(currentPlayer)) {
+      setStatus("🤝 Draw! Stalemate");
+    } else {
+      clearStatus();
     }
   }
 }

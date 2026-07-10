@@ -12,8 +12,6 @@ A chess game built using **HTML, CSS, and JavaScript**.
 
 ## To Do
 
-* [ ] Check detection
-* [ ] Checkmate
 * [ ] Castling
 * [ ] En passant
 * [ ] Pawn promotion
