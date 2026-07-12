@@ -97,7 +97,6 @@ Open `index.html` in your browser or use the **Live Server** extension in Visual
 
 ## 🌟 Future Improvements
 
-* Move history
 * Undo/Redo moves
 * Game timer
 * Sound effects
