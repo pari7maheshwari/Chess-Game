@@ -10,37 +10,50 @@
     <div class="container">
       <h1>♔ Chess Game ♚</h1>
 
-      <div class="turn" id="turn">White's Turn</div>
+      <div class="turn" id="turn">⚪ White's Turn</div>
+
       <button id="restartBtn">♞ New Game</button>
+
       <div id="status" class="status"></div>
 
       <div class="captured" id="whiteCaptured">White Captured:</div>
 
-      <div class="board-wrapper">
-        <div class="top-labels">
-          <span>A</span>
-          <span>B</span>
-          <span>C</span>
-          <span>D</span>
-          <span>E</span>
-          <span>F</span>
-          <span>G</span>
-          <span>H</span>
+      <div class="game-area">
+        <!-- Chess Board -->
+        <div class="board-section">
+          <div class="board-wrapper">
+            <div class="top-labels">
+              <span>A</span>
+              <span>B</span>
+              <span>C</span>
+              <span>D</span>
+              <span>E</span>
+              <span>F</span>
+              <span>G</span>
+              <span>H</span>
+            </div>
+
+            <div class="middle">
+              <div class="side-labels">
+                <span>8</span>
+                <span>7</span>
+                <span>6</span>
+                <span>5</span>
+                <span>4</span>
+                <span>3</span>
+                <span>2</span>
+                <span>1</span>
+              </div>
+
+              <table id="table"></table>
+            </div>
+          </div>
         </div>
 
-        <div class="middle">
-          <div class="side-labels">
-            <span>8</span>
-            <span>7</span>
-            <span>6</span>
-            <span>5</span>
-            <span>4</span>
-            <span>3</span>
-            <span>2</span>
-            <span>1</span>
-          </div>
-
-          <table id="table"></table>
+        <!-- Move History -->
+        <div class="history-panel">
+          <h2>📜 Move History</h2>
+          <div id="moveHistory"></div>
         </div>
       </div>
 

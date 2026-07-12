@@ -34,3 +34,8 @@ export function isPathClear(fromRow, fromCol, toRow, toCol) {
 
   return true;
 }
+
+export function squareName(row, col) {
+    const files = "abcdefgh";
+    return files[col] + (8 - row);
+}

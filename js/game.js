@@ -9,6 +9,8 @@ import { setStatus, clearStatus } from "./status.js";
 import { hasLegalMoves } from "./checkmate.js";
 import { promotePawn } from "./promotion.js";
 import { addCapturedPiece } from "./capture.js";
+import { addMove } from "./history.js";
+import { squareName } from "./utils.js";
 
 const turnText = document.getElementById("turn");
 
@@ -125,6 +127,11 @@ export function movePiece(elem) {
       state.moved.brh = true;
     }
   }
+
+  const from = squareName(state.selected.row, state.selected.col);
+  const to = squareName(row, col);
+
+  addMove(`${piece} : ${from} → ${to}`);
 
   state.lastMove = {
     piece,
