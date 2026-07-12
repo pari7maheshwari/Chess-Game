@@ -63,7 +63,7 @@ Chess-Game/
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/chess-game.git
+git clone https://github.com/pari7maheshwari/chess-game.git
 ```
 
 ### Navigate to the project
