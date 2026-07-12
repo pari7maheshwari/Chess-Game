@@ -14,13 +14,14 @@ export const state = {
   turn: "white",
   gameOver: false,
 
-   moved: {
+  moved: {
     wk: false,
     wra: false,
     wrh: false,
-
     bk: false,
     bra: false,
     brh: false,
-  }
+  },
+
+  lastMove: null,
 };

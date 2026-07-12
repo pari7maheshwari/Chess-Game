@@ -61,7 +61,17 @@ export function movePiece(elem) {
   if (!tryMove(state.selected.row, state.selected.col, row, col)) {
     return;
   }
-
+  if (
+    piece[1] === "p" &&
+    board[row][col] === "" &&
+    col !== state.selected.col
+  ) {
+    if (piece === "wp") {
+      board[row + 1][col] = "";
+    } else {
+      board[row - 1][col] = "";
+    }
+  }
   // Move piece
   if (piece === "wk" && state.selected.col === 4 && col === 6) {
     board[7][5] = "wr";
@@ -72,8 +82,49 @@ export function movePiece(elem) {
     board[7][3] = "wr";
     board[7][0] = "";
   }
+  // Black king side castling
+  if (piece === "bk" && state.selected.col === 4 && col === 6) {
+    board[0][5] = "br";
+    board[0][7] = "";
+  }
+
+  // Black queen side castling
+  if (piece === "bk" && state.selected.col === 4 && col === 2) {
+    board[0][3] = "br";
+    board[0][0] = "";
+  }
   board[row][col] = piece;
   board[state.selected.row][state.selected.col] = "";
+
+  // Update castling flags
+  if (piece === "wk") state.moved.wk = true;
+  if (piece === "bk") state.moved.bk = true;
+
+  if (piece === "wr") {
+    if (state.selected.row === 7 && state.selected.col === 0) {
+      state.moved.wra = true;
+    }
+    if (state.selected.row === 7 && state.selected.col === 7) {
+      state.moved.wrh = true;
+    }
+  }
+
+  if (piece === "br") {
+    if (state.selected.row === 0 && state.selected.col === 0) {
+      state.moved.bra = true;
+    }
+    if (state.selected.row === 0 && state.selected.col === 7) {
+      state.moved.brh = true;
+    }
+  }
+
+  state.lastMove = {
+    piece,
+    fromRow: state.selected.row,
+    fromCol: state.selected.col,
+    toRow: row,
+    toCol: col,
+  };
 
   promotePawn(board, row, col);
 
@@ -136,26 +187,22 @@ function tryMove(fromRow, fromCol, toRow, toCol) {
   const piece = board[fromRow][fromCol];
   const capturedPiece = board[toRow][toCol];
 
-  // Make temporary move
+  // Temporary move
   board[toRow][toCol] = piece;
   board[fromRow][fromCol] = "";
 
   const color = getPieceColor(piece);
+  const illegal = isKingInCheck(color);
 
-  // Check if own king is attacked
-  if (isKingInCheck(color)) {
-    // Undo move
-    board[fromRow][fromCol] = piece;
-    board[toRow][toCol] = capturedPiece;
+  // Always restore the board
+  board[fromRow][fromCol] = piece;
+  board[toRow][toCol] = capturedPiece;
 
+  if (illegal) {
     setStatus("Illegal move! Your king is in check.");
-
-    renderBoard();
-
     return false;
   }
 
   clearStatus();
-
   return true;
 }
