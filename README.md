@@ -4,13 +4,7 @@ A fully functional chess game built using **HTML, CSS, and Vanilla JavaScript**.
 
 ## 🚀 Live Demo
 
-> Add your deployment link here after hosting the project.
-
-## 📸 Preview
-
-> Add a screenshot or GIF of the game here.
-
----
+https://pari7maheshwari.github.io/Chess-Game/
 
 ## ✨ Features
 
