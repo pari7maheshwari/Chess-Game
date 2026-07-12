@@ -7,6 +7,7 @@ import { highlightMoves, clearHighlights } from "./board.js";
 import { isKingInCheck } from "./check.js";
 import { setStatus, clearStatus } from "./status.js";
 import { hasLegalMoves } from "./checkmate.js";
+import { promotePawn } from "./promotion.js";
 
 const turnText = document.getElementById("turn");
 
@@ -73,6 +74,8 @@ export function movePiece(elem) {
   }
   board[row][col] = piece;
   board[state.selected.row][state.selected.col] = "";
+
+  promotePawn(board, row, col);
 
   renderBoard();
 
