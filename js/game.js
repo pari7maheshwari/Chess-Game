@@ -8,6 +8,7 @@ import { isKingInCheck } from "./check.js";
 import { setStatus, clearStatus } from "./status.js";
 import { hasLegalMoves } from "./checkmate.js";
 import { promotePawn } from "./promotion.js";
+import { addCapturedPiece } from "./capture.js";
 
 const turnText = document.getElementById("turn");
 
@@ -54,6 +55,7 @@ export function movePiece(elem) {
   console.log("Selected:", state.selected);
   console.log("Moving piece...");
   const piece = getPiece(state.selected.row, state.selected.col);
+  const capturedPiece = board[row][col];
 
   if (!isValidMove(state.selected.row, state.selected.col, row, col)) {
     return;
@@ -67,8 +69,10 @@ export function movePiece(elem) {
     col !== state.selected.col
   ) {
     if (piece === "wp") {
+      addCapturedPiece(board[row + 1][col]);
       board[row + 1][col] = "";
     } else {
+      addCapturedPiece(board[row - 1][col]);
       board[row - 1][col] = "";
     }
   }
@@ -95,6 +99,10 @@ export function movePiece(elem) {
   }
   board[row][col] = piece;
   board[state.selected.row][state.selected.col] = "";
+
+  if (capturedPiece !== "") {
+    addCapturedPiece(capturedPiece);
+  }
 
   // Update castling flags
   if (piece === "wk") state.moved.wk = true;

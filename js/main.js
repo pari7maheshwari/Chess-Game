@@ -1,5 +1,6 @@
 import { createBoard, renderBoard } from "./board.js";
 import { movePiece } from "./game.js";
+import { restartGame } from "./restart.js";
 
 createBoard();
 renderBoard();
@@ -13,3 +14,7 @@ for (let row = 0; row < 8; row++) {
             });
     }
 }
+
+document
+  .getElementById("restartBtn")
+  .addEventListener("click", restartGame);
