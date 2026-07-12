@@ -18,7 +18,6 @@ export function movePiece(elem) {
   if (state.gameOver) {
     return;
   }
-  console.log("Clicked:", elem.id);
   const row = Number(elem.id[3]);
   const col = Number(elem.id[4]);
   // First click
@@ -26,9 +25,6 @@ export function movePiece(elem) {
     if (board[row][col] === "") return;
 
     const pieceColor = getPieceColor(board[row][col]);
-
-    console.log("Piece Color:", pieceColor);
-    console.log("Current Turn:", state.turn);
 
     if (pieceColor !== state.turn) return;
     selectPiece(row, col, elem);
@@ -54,8 +50,7 @@ export function movePiece(elem) {
     }
     // Clicking an opponent piece -> continue to move validation
   }
-  console.log("Selected:", state.selected);
-  console.log("Moving piece...");
+
   const piece = getPiece(state.selected.row, state.selected.col);
   const capturedPiece = board[row][col];
 
